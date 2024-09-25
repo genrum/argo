@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: pacman
+  name: pacman-test
 ---
 # Service Definition for MongoDB (Unchanged)
 apiVersion: v1
 kind: Service
 metadata:
   name: mongo
-  namespace: pacman
+  namespace: pacman-test
   labels:
     app: mongo
 spec:
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mongo-init-script
-  namespace: pacman
+  namespace: pacman-test
 data:
   setup.sh: |
     #!/bin/bash
@@ -50,7 +50,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo
-  namespace: pacman
+  namespace: pacman-test
 spec:
   replicas: 1
   selector:
