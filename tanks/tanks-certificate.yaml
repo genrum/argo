@@ -1,13 +1,13 @@
-# apiVersion: cert-manager.io/v1
-# kind: Certificate
-# metadata:
-#   name: bigfoot.paxel.ca
-#   namespace: tanks-test
-# spec:
-#   secretName: bigfoot.paxel.ca-tls
-#   issuerRef:
-#     name: letsencrypt-prod
-#     kind: ClusterIssuer
-#   commonName: bigfoot.paxel.ca
-#   dnsNames:
-#   - bigfoot.paxel.ca
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bigfoot.paxel.ca
+  namespace: tanks-test
+spec:
+  secretName: bigfoot.paxel.ca-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: bigfoot.paxel.ca
+  dnsNames:
+  - bigfoot.paxel.ca
