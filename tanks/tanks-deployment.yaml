@@ -1,0 +1,98 @@
+# Ingress Definition
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tanks
+  namespace: tanks-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: bigfoot.paxel.ca
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tanks-service
+                port:
+                  number: 8080
+# TLS disabled for now need to setup cert-manager                  
+  tls:
+    - hosts:
+        - bigfoot.paxel.ca
+      secretName: bigfoot.paxel.ca-tls
+
+---
+# Namespace Definition
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tanks-test
+---
+
+# Service Definition for Pac-Man Application
+apiVersion: v1
+kind: Service
+metadata:
+  name: tanks-service
+  namespace: tanks-test
+  labels:
+    name: tanks
+spec:
+  selector:
+    name: tanks
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+
+---
+
+# Deployment Definition for Pac-Man Application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tanks-deploy
+  namespace: tanks-test
+  labels:
+    name: tanks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: tanks
+  template:
+    metadata:
+      labels:
+        name: tanks
+    spec:
+      containers:
+        - name: pac-man
+          image: docker.io/benb88/fc-tank:latest
+          ports:
+            - name: http-server
+              containerPort: 8080
+          # env:
+          #   - name: NODE_ENV
+          #     value: "production"
+          #   - name: PORT
+          #     value: "8080"
+          #   - name: MONGO_SERVICE_HOST
+          #     value: "mongo.pacman.svc.cluster.local"
+          #   - name: MONGO_AUTH_USER
+          #     value: "pacman"
+          #   - name: MONGO_AUTH_PWD
+          #     value: "pacman"
+          #   - name: MONGO_DATABASE
+          #     value: "pacman"
+          #   - name: MONGO_COLLECTION 
+          #     value: "pacman"
+          #   # Additional environment variables can be added here as required
