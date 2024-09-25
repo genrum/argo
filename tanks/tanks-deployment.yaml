@@ -22,7 +22,7 @@ spec:
               service:
                 name: tanks-service
                 port:
-                  number: 80
+                  number: 443
 # TLS disabled for now need to setup cert-manager                  
   tls:
     - hosts:
@@ -50,7 +50,7 @@ spec:
     name: tanks
   ports:
     - protocol: TCP
-      port: 80
+      port: 443
       targetPort: 80
   type: LoadBalancer
 
@@ -75,7 +75,7 @@ spec:
         name: tanks
     spec:
       containers:
-        - name: pac-man
+        - name: tanks
           image: docker.io/benb88/fc-tank:latest
           ports:
             - name: http-server
