@@ -24,10 +24,10 @@ spec:
                 port:
                   number: 80
 # TLS disabled for now need to setup cert-manager                  
-  # tls:
-  #   - hosts:
-  #       - bigfoot.paxel.ca
-  #     secretName: bigfoot.paxel.ca-tls
+  tls:
+    - hosts:
+        - bigfoot.paxel.ca
+      secretName: bigfoot.paxel.ca-tls
 
 ---
 # Namespace Definition
