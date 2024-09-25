@@ -50,8 +50,8 @@ spec:
     name: tanks
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 80
+      targetPort: 80
   type: LoadBalancer
 
 ---
@@ -79,7 +79,7 @@ spec:
           image: docker.io/benb88/fc-tank:latest
           ports:
             - name: http-server
-              containerPort: 8080
+              containerPort: 80
           # env:
           #   - name: NODE_ENV
           #     value: "production"
