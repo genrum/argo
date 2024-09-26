@@ -43,11 +43,11 @@ kind: Service
 metadata:
   name: tanks-service
   namespace: tanks-test
-  # labels:
-  #   name: tanks
+  labels:
+    name: tanks
 spec:
-  # selector:
-  #   name: tanks
+  selector:
+    name: tanks
   ports:
     - protocol: TCP
       port: 443
@@ -62,21 +62,21 @@ kind: Deployment
 metadata:
   name: tanks-deploy
   namespace: tanks-test
-  # labels:
-  #   name: tanks
+  labels:
+    name: tanks
 spec:
   replicas: 1
-  # selector:
-  #   matchLabels:
-  #     name: tanks
+  selector:
+    matchLabels:
+      name: tanks
   template:
-    # metadata:
-    #   labels:
-    #     name: tanks
+    metadata:
+      labels:
+        name: tanks
     spec:
       containers:
         - name: tanks
           image: docker.io/benb88/fc-tank:latest
           ports:
-            # - name: http-server
+            - name: http-server
               containerPort: 80
