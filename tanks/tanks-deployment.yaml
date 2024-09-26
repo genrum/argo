@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: bigfoot.paxel.ca
+    - host: tanks.paxel.ca
       http:
         paths:
           - path: /
@@ -26,8 +26,8 @@ spec:
 # TLS disabled for now need to setup cert-manager                  
   tls:
     - hosts:
-        - bigfoot.paxel.ca
-      secretName: bigfoot.paxel.ca-tls
+        - tanks.paxel.ca
+      secretName: tanks.paxel.ca-tls
 
 ---
 # Namespace Definition
@@ -37,17 +37,17 @@ metadata:
   name: tanks-test
 ---
 
-# Service Definition for Pac-Man Application
+# Service Definition for Tanks Application
 apiVersion: v1
 kind: Service
 metadata:
   name: tanks-service
   namespace: tanks-test
-  labels:
-    name: tanks
+  # labels:
+  #   name: tanks
 spec:
-  selector:
-    name: tanks
+  # selector:
+  #   name: tanks
   ports:
     - protocol: TCP
       port: 443
@@ -56,43 +56,27 @@ spec:
 
 ---
 
-# Deployment Definition for Pac-Man Application
+# Deployment Definition for Tanks Application
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tanks-deploy
   namespace: tanks-test
-  labels:
-    name: tanks
+  # labels:
+  #   name: tanks
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      name: tanks
+  # selector:
+  #   matchLabels:
+  #     name: tanks
   template:
-    metadata:
-      labels:
-        name: tanks
+    # metadata:
+    #   labels:
+    #     name: tanks
     spec:
       containers:
         - name: tanks
           image: docker.io/benb88/fc-tank:latest
           ports:
-            - name: http-server
+            # - name: http-server
               containerPort: 80
-          # env:
-          #   - name: NODE_ENV
-          #     value: "production"
-          #   - name: PORT
-          #     value: "8080"
-          #   - name: MONGO_SERVICE_HOST
-          #     value: "mongo.pacman.svc.cluster.local"
-          #   - name: MONGO_AUTH_USER
-          #     value: "pacman"
-          #   - name: MONGO_AUTH_PWD
-          #     value: "pacman"
-          #   - name: MONGO_DATABASE
-          #     value: "pacman"
-          #   - name: MONGO_COLLECTION 
-          #     value: "pacman"
-          #   # Additional environment variables can be added here as required
