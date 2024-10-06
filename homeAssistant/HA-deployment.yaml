@@ -1,0 +1,82 @@
+# Ingress Definition for Home Assistant Application
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    external-dns.alpha. kubernetes. io/hostname: "home-assistant.paxel.ca."
+    external-dns.alpha. kubernetes.io/target: "router.paxel.ca."
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: home-assistant.paxel.ca
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant-service
+                port:
+                  number: 443                
+  tls:
+    - hosts:
+        - home-assistant.paxel.ca
+      secretName: home-assistant.paxel.ca-tls
+
+---
+# Namespace Definition
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: home-assistant
+---
+
+# Service Definition for Home Assistant Application
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-assistant-service
+  namespace: home-assistant
+  labels:
+    name: home-assistant
+spec:
+  selector:
+    name: home-assistant
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 8123
+
+---
+
+# Deployment Definition for Home Assistant Application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-assistant-deploy
+  namespace: home-assistant
+  labels:
+    name: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: home-assistant
+  template:
+    metadata:
+      labels:
+        name: home-assistant
+    spec:
+      containers:
+        - name: home-assistant
+          image: docker.io/homeassistant/home-assistant:latest
+          ports:
+            - name: http-server
+              containerPort: 8123
