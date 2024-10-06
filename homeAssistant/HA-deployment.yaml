@@ -10,12 +10,12 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    external-dns.alpha. kubernetes. io/hostname: "home-assistant.paxel.ca."
+    external-dns.alpha. kubernetes. io/hostname: "homeassistant.paxel.ca."
     external-dns.alpha. kubernetes.io/target: "router.paxel.ca."
 spec:
   ingressClassName: nginx
   rules:
-    - host: home-assistant.paxel.ca
+    - host: homeassistant.paxel.ca
       http:
         paths:
           - path: /
@@ -24,11 +24,11 @@ spec:
               service:
                 name: home-assistant-service
                 port:
-                  number: 443                
+                  number: 8123                
   tls:
     - hosts:
-        - home-assistant.paxel.ca
-      secretName: home-assistant.paxel.ca-tls
+        - homeassistant.paxel.ca
+      secretName: homeassistant.paxel.ca-tls
 
 ---
 # Namespace Definition
@@ -51,8 +51,21 @@ spec:
     name: home-assistant
   ports:
     - protocol: TCP
-      port: 443
+      port: 8123
       targetPort: 8123
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-assistant-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
 
 ---
 
