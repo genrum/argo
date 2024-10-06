@@ -10,12 +10,12 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    external-dns.alpha. kubernetes. io/hostname: "homeassistant.paxel.ca."
-    external-dns.alpha. kubernetes.io/target: "router.paxel.ca."
+    # external-dns.alpha. kubernetes. io/hostname: "homeassistant.paxel.ca."
+    # external-dns.alpha. kubernetes.io/target: "router.paxel.ca."
 spec:
   ingressClassName: nginx
   rules:
-    - host: homeassistant.paxel.ca
+    - host: bigfoot.paxel.ca
       http:
         paths:
           - path: /
@@ -27,8 +27,8 @@ spec:
                   number: 8123                
   tls:
     - hosts:
-        - homeassistant.paxel.ca
-      secretName: homeassistant.paxel.ca-tls
+        - bigfoot.paxel.ca
+      secretName: bigfoot.paxel.ca-tls
 
 ---
 # Namespace Definition
