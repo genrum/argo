@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: home-assistant.paxel.ca
+  name: bigfoot.paxel.ca
   namespace: home-assistant
 spec:
-  secretName: home-assistant.paxel.ca-tls
+  secretName: bigfoot.paxel.ca-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: home-assistant.paxel.ca
+  commonName: bigfoot.paxel.ca
   dnsNames:
-  - home-assistant.paxel.ca
+  - bigfoot.paxel.ca
