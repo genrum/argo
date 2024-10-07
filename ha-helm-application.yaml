@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: assistant
+spec:
+  destination:
+    name: ''
+    namespace: assistant
+    server: https://kubernetes.default.svc
+  source:
+    path: ''
+    repoURL: https://k8s-at-home.com/charts/
+    targetRevision: 13.4.2
+    chart: home-assistant
+    helm:
+      valueFiles: []
+      parameters:
+        - name: env.TZ
+          value: '"America/Chicago"'
+  sources: []
+  project: default
